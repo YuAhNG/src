@@ -1,0 +1,25 @@
+port: /dev/ttyUSB0
+baud: 115200
+timeout: 0.1
+rate: 50
+sensorstate_rate: 10
+
+use_base_controller: True
+base_controller_rate: 10
+
+# For a robot that uses base_footprint, change base_frame to base_footprint
+base_frame: base_link
+
+# === Robot drivetrain parameters
+wheel_diameter: 0.1
+wheel_track: 0.34
+encoder_resolution: 12 # from Pololu for 12*64 motors
+gear_reduction: 64.0
+motors_reversed: False
+
+# === PID parameters
+Kp: 10 #10
+Kd: 12 #12
+Ki: 0 #0
+Ko: 50 #50
+accel_limit: 1.0
