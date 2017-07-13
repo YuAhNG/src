@@ -12,14 +12,14 @@ base_frame: base_link
 
 # === Robot drivetrain parameters
 wheel_diameter: 0.1
-wheel_track: 0.45
+wheel_track: 0.335
 encoder_resolution: 12 # from Pololu for 13*34*4 motors
-gear_reduction: 60
-motors_reversed: False
+gear_reduction: 64
+motors_reversed: True
 
 # === PID parameters
-Kp: 10
-Kd: 12
-Ki: 0
-Ko: 50
+Kp: 1 #10
+Kd: 0 #12
+Ki: 0 #0
+Ko: 0 #50
 accel_limit: 1.0
