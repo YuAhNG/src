@@ -28,6 +28,8 @@ from math import sin, cos, pi
 from geometry_msgs.msg import Quaternion, Twist, Pose
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
+
+from std_msgs.msg import Int32
  
 """ Class to receive Twist commands and publish Odometry data """
 class BaseController:
@@ -88,6 +90,12 @@ class BaseController:
         self.arduino.reset_encoders()
         
         # Set up the odometry broadcaster
+        self.lEncoderPub = rospy.Publisher('Lencoder', Int32)
+        self.rEncoderPub = rospy.Publisher('Rencoder', Int32)
+        self.lPidoutPub = rospy.Publisher('Lpidout', Int32)
+        self.rPidoutPub = rospy.Publisher('Rpidout', Int32)
+        self.lVelPub = rospy.Publisher('Lvel', Int32)
+        self.rVelPub = rospy.Publisher('Rvel', Int32)
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size=5)
         self.odomBroadcaster = TransformBroadcaster()
         
@@ -120,6 +128,21 @@ class BaseController:
     def poll(self):
         now = rospy.Time.now()
         if now > self.t_next:
+            try:
+                left_pidin, right_pidin = self.arduino.get_pidin()
+            except:
+                rospy.logerr("getpidout exception count: ")
+                return
+            self.lEncoderPub.publish(left_pidin)
+            self.rEncoderPub.publish(right_pidin)
+            try:
+                left_pidout, right_pidout = self.arduino.get_pidout()
+            except:
+                rospy.logerr("getpidout exception count: ")
+                return
+            self.lPidoutPub.publish(left_pidout)
+            self.rPidoutPub.publish(right_pidout)
+
             # Read the encoders
             try:
                 left_enc, right_enc = self.arduino.get_encoder_counts()
@@ -210,6 +233,9 @@ class BaseController:
             
             # Set motor speeds in encoder ticks per PID loop
             if not self.stopped:
+
+                self.lVelPub.publish(self.v_left)
+                self.rVelPub.publish(self.v_right)
                 self.arduino.drive(self.v_left, self.v_right)
                 
             self.t_next = now + self.t_delta

@@ -33,6 +33,23 @@ SERVO_MAX = 180
 SERVO_MIN = 0
 
 class Arduino:
+    def get_pidin(self):
+        values = self.execute_array('i')
+        if len(values) != 2:
+            print "get_pidin count was not 2"
+            raise SerialException
+            return None
+        else:
+             return values
+
+    def get_pidout(self):
+        values = self.execute_array('f')
+        if len(values) != 2:
+            print "get_pidout count was not 2"
+            raise SerialException
+            return None
+        else:
+            return values
     ''' Configuration Parameters
     '''    
     N_ANALOG_PORTS = 6
