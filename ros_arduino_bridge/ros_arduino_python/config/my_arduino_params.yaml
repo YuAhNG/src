@@ -1,7 +1,7 @@
 port: /dev/usb_chassis
 baud: 115200
 timeout: 0.1
-rate: 50
+rate: 100 #50
 sensorstate_rate: 10
 
 use_base_controller: True
@@ -12,14 +12,14 @@ base_frame: base_link
 
 # === Robot drivetrain parameters
 wheel_diameter: 0.1
-wheel_track: 0.335
+wheel_track:  0.49
 encoder_resolution: 12 # from Pololu for 13*34*4 motors
 gear_reduction: 64
-motors_reversed: True
+motors_reversed: Faulse #True
 
 # === PID parameters
-Kp: 1 #10
+Kp: 6 #10
 Kd: 0 #12
 Ki: 0 #0
-Ko: 0 #50
+Ko: 5 #50
 accel_limit: 1.0
